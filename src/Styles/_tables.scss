@@ -1,0 +1,33 @@
+.table{
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border-collapse: collapse;
+  thead{
+    th {
+      vertical-align: bottom;
+      border-bottom: 2px solid #a4b7c1;
+    }
+  }
+  th, td {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #a4b7c1;
+    position: relative;
+    .btn{
+      margin-right: .3rem; 
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+    form{
+      display: block;
+      position: absolute;
+      top: .5rem;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}

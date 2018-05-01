@@ -1,0 +1,45 @@
+.modal{
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .6);
+    visibility: visible;
+    z-index: 1000;
+    .modal-box{
+      display: flex;
+      margin: 10% auto 0;
+      max-width: 90%;
+      width: 23rem;
+      padding: 0;
+      background-color: $modal-bg;
+      border: 1px solid #2a2a35;
+      animation: slide-down .3s ease-out;
+      -webkit-animation: slide-down .3s ease-out;
+      -moz-animation: slide-down .3s ease-out;
+      &.playlist{
+        width: 28rem;
+      }
+      @media only screen and (max-width: 420px){
+        width: 20rem;
+      }
+      @media only screen and (max-width: 380px){
+        width: 17rem;
+        padding: 2rem 1.5rem;
+      }
+      @media only screen and (max-width: 320px){
+        width: 15rem;
+        padding: 2rem 1rem;
+      }
+      .card{
+        margin-bottom: 0;
+        width: 100%;
+      }
+    }
+    &.closed{
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }

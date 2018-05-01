@@ -1,0 +1,15 @@
+.wrap{
+    @include wrap;
+    @include wrap("normal");
+    @include wrap("gutter", 8);
+    .col-half{
+        @include col;
+        @include col(1, 2);
+        margin-bottom: 1rem;
+    }
+    .col-full{
+        @include col;
+        @include col(1, 1);
+        margin-bottom: 1rem;
+    }
+}

@@ -1,0 +1,9 @@
+@mixin line-and-height($hgt: null, $lhgt: null){
+    @if $hgt == null and $lhgt == null {
+      height: 0;
+      line-height: 0;
+    }@else {
+      height: #{$hgt}#{"rem"};
+      line-height: #{$lhgt}#{"rem"};
+    }
+  }

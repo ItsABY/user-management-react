@@ -1,0 +1,24 @@
+header{
+    position: fixed;
+    z-index: 1020;
+    width: 100%;
+    flex-direction: row;
+    height: 3.667rem;
+    top: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #a4b7c1;
+    .brand-w-button{
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        width: 16rem;
+        height: 3.667rem;
+        i{
+            @include line-and-height(3.667, 3.667);
+            width: 2rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+    }
+}
