@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import moment from 'moment';
 import {fetchGroups, searchGroup} from '../Actions/List';
 import {addGroup} from '../Actions/Create';
-import {deleteGroup, updateGroup} from '../Actions/Update';
+
+import GroupsList from '../Components/GroupsList';
 
 class Groups extends Component{
     constructor(props){
@@ -14,17 +13,11 @@ class Groups extends Component{
             msgContent: null,
             msgType: null,
             title: "",
-            updatedtitle: "",
-            updatedid: "",
             searchterm: "",
             groupupdates: props.groupupdates
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleUpdate = this.handleUpdate.bind(this);
-        this.submitUpdate = this.submitUpdate.bind(this);
-        this.handleUpdateBox = this.handleUpdateBox.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
     }
     handleInput(event) {
@@ -41,23 +34,6 @@ class Groups extends Component{
             })
         }
     };
-    handleDelete(groupid){
-        this.props.deleteGroup(groupid);
-    }
-    handleUpdate(e){
-        this.setState({updatedtitle: e.target.value.replace(/(<([^>]+)>)/ig,"")});
-    }
-    submitUpdate(e){
-        e.preventDefault();
-        const { updatedtitle, updatedid } = this.state;
-        if(!updatedtitle || !updatedid){
-            this.setState({msgContent: 'Please provide group title', msgType: 'alert error'})
-        }else{
-            this.setState({loading: true}, function(){
-                this.props.updateGroup(updatedtitle, updatedid);
-            })
-        }
-    }
     handleSearch(e) {
         this.setState({ searchterm: e.target.value.replace(/(<([^>]+)>)/ig,"")}, function(){
             if(this.state.searchterm){
@@ -71,10 +47,6 @@ class Groups extends Component{
         this.props.fetchGroups();
         window.scrollTo(0, 0);
     }
-    //Open edit group box
-    handleUpdateBox(id, title){
-        this.setState({updatedid: id, updatedtitle: title});
-    }
     static getDerivedStateFromProps(props, state) {
             if(props.groupupdates && props.groupupdates !== state.groupupdates){
                 window.scrollTo(0, 0);
@@ -85,9 +57,7 @@ class Groups extends Component{
                         msgType: 'alert success',
                         groupupdates: props.groupupdates,
                         loading: false,
-                        title: "",
-                        updatedid: "",
-                        updatedtitle: ""
+                        title: ""
                     }
                 }else{
                     return{
@@ -103,7 +73,6 @@ class Groups extends Component{
       }
     render(){
         const groups = this.props.groups;
-        let loadMore = groups.length === this.state.inPage;
         return(
             <div className="list-page">
                 {this.state.msgContent &&
@@ -134,61 +103,8 @@ class Groups extends Component{
                                         </div>
                                     </div>
                                 </div>
-                                <table className="table table-responsive-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th className="xs-visible">Created</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {groups.map((group)=>
-                                         <tr key={group._id}>
-                                            <td>
-                                                {group.title}
-                                                {this.state.updatedid === group._id &&
-                                                <form onSubmit={this.submitUpdate}>
-                                                    <div className="input-group">
-                                                        <input 
-                                                            name="title"
-                                                            value={this.state.updatedtitle} 
-                                                            className="form-control form-control-lg" 
-                                                            placeholder="Group Name" 
-                                                            type="text"
-                                                            onChange={this.handleUpdate} />
-                                                        <div className="input-group-append">
-                                                            <button className="btn btn-success">Update</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                }
-                                            </td>
-                                            <td className="xs-visible">{moment(group.created).format('DD.MM.YYYY - hh:mm (Z)')}</td>
-                                            <td>
-                                                {this.state.updatedid === group._id ? (
-                                                <button className="btn btn-primary" type="button" onClick={()=> this.handleUpdateBox("", "")}><i className="fa fa-times"></i></button>
-                                                ):(
-                                                <button className="btn btn-primary" type="button" onClick={()=> this.handleUpdateBox(group._id, group.title)}><i className="fa fa-edit"></i></button>
-                                                )}
-                                                <button 
-                                                className="btn btn-danger" 
-                                                type="button"
-                                                onClick={() => { if (window.confirm('Are you sure to delete this group?')) this.handleDelete(group._id) } }><i className="fa fa-trash"></i></button>
-                                                <Link to={"/group/" + group._id}>
-                                                    <button className="btn btn-success" type="button"><i className="fa fa-info"></i></button>
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                        )}
-                                    </tbody>
-                                </table>
+                                <GroupsList groups={groups} />
                             </div>
-                            {loadMore &&
-                            <div className="card-footer">
-                                <button type="button" className="btn btn-sm btn-success" onClick={this.loadMore}><i className="fa fa-more"></i> Load more</button>
-                            </div>
-                            }
                         </div>
                     </div>
 
@@ -239,4 +155,4 @@ function mapStateToProps(globalState) {
     };
 }
 
-export default connect(mapStateToProps, {fetchGroups, addGroup, deleteGroup, updateGroup, searchGroup})(Groups);
+export default connect(mapStateToProps, {fetchGroups, addGroup, searchGroup})(Groups);
