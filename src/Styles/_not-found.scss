@@ -1,0 +1,20 @@
+.not-found{
+    display: block;
+    width: 100%;
+    .center-block{
+        margin: 3% auto;
+        width: 15.5rem;
+        h1{
+            float: left !important;
+            margin: 0 1.5rem 0 0 !important;
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+        h2{
+            font-weight: 500;
+            padding-top: 1.5rem !important;
+            font-size: 1.3125rem;
+        }
+    }
+}

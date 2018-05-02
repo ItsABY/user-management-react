@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {deleteUser} from '../Actions/Update';
 import {handleModal} from "../Actions/Global";
 
@@ -17,6 +18,7 @@ class UsersList extends Component{
                     <td>{user.fullname}</td>
                     <td>{user.email}</td>
                     <td>{user.group.title}</td>
+                    <td className="md-visible">{moment(user.registered).format('DD.MM.YYYY - hh:mm (Z)')}</td>
                     <td>
                         <button className="btn btn-primary" onClick={()=> this.editUser(user)}><i className="fa fa-edit"></i></button>
                         <button 
@@ -29,12 +31,13 @@ class UsersList extends Component{
     }
     render(){
         return(
-            <table className="table table-responsive-sm">
+            <table className="table table-responsive-lg">
                 <thead>
                     <tr>
                         <th>Full Name</th>
                         <th>Email</th>
                         <th>Group</th>
+                        <th className="md-visible">Registered</th>
                         <th>Action</th>
                     </tr>
                 </thead>

@@ -6,6 +6,16 @@
         @include col;
         @include col(1, 2);
         margin-bottom: 1rem;
+        &.md{
+            @media only screen and (max-width: 767px){
+                @include col(1, 1);
+            }
+        }
+        &.sm{
+            @media only screen and (max-width: 519px){
+                @include col(1, 1);
+            }
+        }
     }
     .col-full{
         @include col;

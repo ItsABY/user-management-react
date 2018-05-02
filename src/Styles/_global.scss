@@ -51,4 +51,24 @@ body{
     &.left-closed{
         margin-left: 0;
     }
+    @media only screen and (max-width: 767px){
+        margin-left: 0;
+    }
+}
+.bg-primary{
+    color: #fff;
+    background-color: $primary-color !important;
+}
+.text-primary{
+    color: $primary-color !important;
+}
+.xs-visible{
+    @media only screen and (max-width: 479px){
+        display: none;
+    }
+}
+.md-visible{
+    @media only screen and (max-width: 767px){
+        display: none;
+    }
 }

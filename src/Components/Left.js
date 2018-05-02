@@ -5,11 +5,17 @@ import { connect } from 'react-redux';
 class Left extends Component{
     render(){
         return(
-            <aside className={this.props.leftbar ? 'left-bar open hide-sm' : 'left-bar hide-sm'}>
+            <aside className={this.props.leftbar ? 'left-bar open hide-sm' : 'left-bar closed hide-sm'}>
                 <div className="content">
                     <ul className="side-nav">
                         <li>
                             <Link to="/">
+                                <i className="fa fa-tachometer-alt"></i>
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/users">
                                 <i className="fa fa-user"></i>
                                 Users
                             </Link>

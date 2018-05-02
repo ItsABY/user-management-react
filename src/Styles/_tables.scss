@@ -31,3 +31,19 @@
     }
   }
 }
+
+.table-responsive-sm {
+  @media only screen and (max-width: 639px){
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+.table-responsive-lg {
+  @media only screen and (max-width: 991px){
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}

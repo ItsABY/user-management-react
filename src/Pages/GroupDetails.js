@@ -5,6 +5,8 @@ import {fetchGroupUsers, searchUser} from '../Actions/List';
 
 import UsersList from '../Components/UsersList';
 import UserModal from '../Components/UserModal';
+import Loading from '../Components/Loading';
+import NotFound from '../Components/NotFound';
 
 class GroupDetails extends Component{
     constructor(props){
@@ -107,12 +109,12 @@ class GroupDetails extends Component{
                 )
             }else if(this.props.group.code === 404 || this.props.group.code === 500){
                 return(
-                    <div>Not found </div>
+                    <NotFound />
                 )
             }
         }else{
             return(
-                <div>Loading... </div>
+                <Loading />
             )
         }
     }

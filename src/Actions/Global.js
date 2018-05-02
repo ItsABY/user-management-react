@@ -15,3 +15,20 @@ export const handleModal = (value) => async (dispatch) => {
         payload: value
     });
 };
+
+// Get content stats
+export const CONTENT_STATS = 'CONTENT_STATS';
+export const contentStats = () => async (dispatch, getState, api) => {
+    const res = await api.post('/stats/content/', null)
+        .then(function (res) {
+            return res;
+        })
+        .catch(function (err) {
+            return err.response;
+        });
+
+    dispatch({
+        type: CONTENT_STATS,
+        payload: res.data
+    });
+};

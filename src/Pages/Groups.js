@@ -6,7 +6,7 @@ import {fetchGroups, searchGroup} from '../Actions/List';
 import {addGroup} from '../Actions/Create';
 import {deleteGroup, updateGroup} from '../Actions/Update';
 
-class GroupsList extends Component{
+class Groups extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -112,7 +112,7 @@ class GroupsList extends Component{
                 </div>
                 }
                 <div className="wrap">
-                    <div className="col-half">
+                    <div className="col-half md">
                         <div className="card">
                             <div className="card-header">
                                 <i className="fa fa-align-justify"></i> Groups List
@@ -138,7 +138,7 @@ class GroupsList extends Component{
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Created</th>
+                                            <th className="xs-visible">Created</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -164,7 +164,7 @@ class GroupsList extends Component{
                                                 </form>
                                                 }
                                             </td>
-                                            <td>{moment(group.created).format('DD.MM.YYYY - hh:mm (Z)')}</td>
+                                            <td className="xs-visible">{moment(group.created).format('DD.MM.YYYY - hh:mm (Z)')}</td>
                                             <td>
                                                 {this.state.updatedid === group._id ? (
                                                 <button className="btn btn-primary" type="button" onClick={()=> this.handleUpdateBox("", "")}><i className="fa fa-times"></i></button>
@@ -192,7 +192,7 @@ class GroupsList extends Component{
                         </div>
                     </div>
 
-                    <div className="col-half">
+                    <div className="col-half md">
                         <div className="card">
                             <form className="form-horizontal" onSubmit={this.handleSubmit}>
                                 <div className="card-header">
@@ -239,4 +239,4 @@ function mapStateToProps(globalState) {
     };
 }
 
-export default connect(mapStateToProps, {fetchGroups, addGroup, deleteGroup, updateGroup, searchGroup})(GroupsList);
+export default connect(mapStateToProps, {fetchGroups, addGroup, deleteGroup, updateGroup, searchGroup})(Groups);

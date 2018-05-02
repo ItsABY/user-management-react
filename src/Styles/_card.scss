@@ -45,4 +45,27 @@
         }
       }
   }
+  &.widget{
+    .card-body{
+      i{
+        font-size: 1.5rem !important;
+        padding: 1.5rem 3rem !important;
+        margin-right: 1rem !important;
+        float: left !important;
+      }
+      .number-text{
+        padding-top: 1rem !important;
+        margin-bottom: 0 !important;
+        font-size: 1.09375rem;
+        font-weight: 500;
+        line-height: 1.2;
+      }
+      .caption{
+        font-size: .75rem !important;
+        color: #536c79 !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+      }
+    }
+  }
 }

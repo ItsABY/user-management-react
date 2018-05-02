@@ -7,11 +7,11 @@ import Header from './Components/Header';
 import Left from './Components/Left';
 
 // Pages
+import Home from './Pages/Home';
 import Users from './Pages/Users';
-import UserDetails from './Pages/UserDetails';
-import GroupsList from './Pages/GroupsList';
+import Groups from './Pages/Groups';
 import GroupDetails from './Pages/GroupDetails';
-import NotFound from './Pages/NotFound';
+import NotFoundPage from './Pages/NotFound';
 
 class App extends Component {
   render() {
@@ -23,12 +23,11 @@ class App extends Component {
                     <Left />
                     <div className={this.props.leftbar ? 'main' : 'main left-closed'}>
                     <Switch>
-                        <Route exact path="/" component={Users} />
+                        <Route exact path="/" component={Home} />
                         <Route exact path="/users" component={Users} />
-                        <Route exact path="/user/:userid" component={UserDetails} />
-                        <Route exact path="/groups" component={GroupsList} />
+                        <Route exact path="/groups" component={Groups} />
                         <Route exact path="/group/:groupid" component={GroupDetails} />
-                        <Route component={NotFound} />
+                        <Route component={NotFoundPage} />
                     </Switch>
                     </div>
                 </div>
