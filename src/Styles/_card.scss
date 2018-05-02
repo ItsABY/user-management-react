@@ -16,6 +16,19 @@
     i{
       margin-right: .7rem;
     }
+    .card-actions {
+        position: absolute;
+        top: 0;
+        right: 0;
+        button {
+          display: block;
+          position: relative;
+          float: left;
+          margin-top: .4rem;
+          margin-right: 1.25rem;
+          text-align: center;
+        }
+    }
   }
   .card-body, .card-block {
     flex: 1 1 auto;

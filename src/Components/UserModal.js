@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {handleModal} from "../Actions/Global";
 import {updateUser} from '../Actions/Update';
+import {addUser} from '../Actions/Create';
 import {connect} from "react-redux";
 
 class UserModal extends Component{
@@ -14,6 +15,7 @@ class UserModal extends Component{
             fullname: "",
             email: "",
             group: "",
+            type: "edit",
             userupdates: props.userupdates
         }
         this.setModalRef = this.setModalRef.bind(this);
@@ -48,7 +50,11 @@ class UserModal extends Component{
             this.setState({msgContent: 'Please select group', msgType: 'alert error'})
         }else{
             this.setState({loading: true}, function(){
-                this.props.updateUser(this.state.usermodal._id, {fullname, email, group});
+                if(this.state.type === "add"){
+                    this.props.addUser({fullname, email, group});
+                }else{
+                    this.props.updateUser(this.state.usermodal._id, {fullname, email, group});
+                }
             })
         }
     }
@@ -63,6 +69,7 @@ class UserModal extends Component{
                 fullname: props.usermodal.fullname,
                 email: props.usermodal.email,
                 group: props.usermodal.group._id,
+                type: props.usermodal.type
             }
         }else if(!props.usermodal){
             return{
@@ -74,13 +81,13 @@ class UserModal extends Component{
             if(props.userupdates.code === 200){
                 props.handleModal(null);
                 return{
-                    msgContent: props.userupdates.message,
-                    msgType: 'alert success',
-                    userupdates: props.userupdates,
+                    msgContent: null,
+                    msgType: null,
                     loading: false,
                     fullname: "",
                     email: "",
-                    group: ""
+                    group: "",
+                    type: ""
                 }
             }else{
                 return{
@@ -101,9 +108,15 @@ class UserModal extends Component{
                 <div className="modal-box" ref={this.setModalRef}>
                 <div className="card">
                             <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                                {this.state.type === "add" ? (
+                                <div className="card-header">
+                                    <i className="fa fa-user-plus"></i> Add User
+                                </div>
+                                ):(
                                 <div className="card-header">
                                     <i className="fa fa-edit"></i> Edit User
                                 </div>
+                                )}
                                 <div className="card-body">
                                     {this.state.msgContent &&
                                     <div className={this.state.msgType} role="alert">
@@ -186,4 +199,4 @@ const mapStateToProps = (globalState) => {
         userupdates: globalState.userupdates
     };
 };
-export default connect(mapStateToProps, {handleModal, updateUser})(UserModal);
+export default connect(mapStateToProps, {handleModal, updateUser, addUser})(UserModal);
