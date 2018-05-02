@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './Reducers';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:7001/api'
+    baseURL: 'https://user-management-node.herokuapp.com/api'
 });
 const store = createStore(
     rootReducer,
