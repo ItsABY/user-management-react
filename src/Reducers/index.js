@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 import users from './Users';
-import groups from './Groups';
-import groupupdates from './GroupUpdates';
 import userupdates from './UserUpdates';
-import leftbar from './LeftBar';
 import usermodal from './UserModal';
+import groups from './Groups';
+import group from './Group';
+import groupupdates from './GroupUpdates';
+import leftbar from './LeftBar';
 
 export default combineReducers({
     users,
-    groups,
-    groupupdates,
     userupdates,
-    leftbar,
-    usermodal
+    usermodal,
+    groups,
+    group,
+    groupupdates,
+    leftbar
 });

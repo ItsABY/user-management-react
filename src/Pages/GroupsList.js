@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
-import {fetchGroups} from '../Actions/List';
+import {fetchGroups, searchGroup} from '../Actions/List';
 import {addGroup} from '../Actions/Create';
 import {deleteGroup, updateGroup} from '../Actions/Update';
 
@@ -15,6 +16,7 @@ class GroupsList extends Component{
             title: "",
             updatedtitle: "",
             updatedid: "",
+            searchterm: "",
             groupupdates: props.groupupdates
         };
         this.handleInput = this.handleInput.bind(this);
@@ -23,6 +25,7 @@ class GroupsList extends Component{
         this.handleUpdate = this.handleUpdate.bind(this);
         this.submitUpdate = this.submitUpdate.bind(this);
         this.handleUpdateBox = this.handleUpdateBox.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
     handleInput(event) {
         this.setState({title: event.target.value.replace(/(<([^>]+)>)/ig,"")});
@@ -54,6 +57,15 @@ class GroupsList extends Component{
                 this.props.updateGroup(updatedtitle, updatedid);
             })
         }
+    }
+    handleSearch(e) {
+        this.setState({ searchterm: e.target.value.replace(/(<([^>]+)>)/ig,"")}, function(){
+            if(this.state.searchterm){
+                this.props.searchGroup(this.state.searchterm);
+            }else{
+                this.props.fetchGroups();
+            }
+        });
     }
     componentDidMount(){
         this.props.fetchGroups();
@@ -106,6 +118,22 @@ class GroupsList extends Component{
                                 <i className="fa fa-align-justify"></i> Groups List
                             </div>
                             <div className="card-body">
+                                <div className="form-group wrap">
+                                    <div className="col-full">
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text"><i className="fa fa-search"></i></span>
+                                            </div>
+                                            <input 
+                                                onChange={this.handleSearch} 
+                                                value={this.state.searchterm} 
+                                                name="searchterm" 
+                                                className="form-control form-control-lg" 
+                                                placeholder="Search User" 
+                                                type="text" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <table className="table table-responsive-sm">
                                     <thead>
                                         <tr>
@@ -147,6 +175,9 @@ class GroupsList extends Component{
                                                 className="btn btn-danger" 
                                                 type="button"
                                                 onClick={() => { if (window.confirm('Are you sure to delete this group?')) this.handleDelete(group._id) } }><i className="fa fa-trash"></i></button>
+                                                <Link to={"/group/" + group._id}>
+                                                    <button className="btn btn-success" type="button"><i className="fa fa-info"></i></button>
+                                                </Link>
                                             </td>
                                         </tr>
                                         )}
@@ -208,4 +239,4 @@ function mapStateToProps(globalState) {
     };
 }
 
-export default connect(mapStateToProps, {fetchGroups, addGroup, deleteGroup, updateGroup})(GroupsList);
+export default connect(mapStateToProps, {fetchGroups, addGroup, deleteGroup, updateGroup, searchGroup})(GroupsList);

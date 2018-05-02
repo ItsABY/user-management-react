@@ -11,7 +11,7 @@ class UserModal extends Component{
             loading: false,
             msgContent: null,
             msgType: null,
-            Fullname: "",
+            fullname: "",
             email: "",
             group: "",
             userupdates: props.userupdates
@@ -39,8 +39,8 @@ class UserModal extends Component{
     }
     handleSubmit(e) {
         e.preventDefault();
-        const { Fullname, email, group } = this.state;
-        if(!Fullname){
+        const { fullname, email, group } = this.state;
+        if(!fullname){
             this.setState({msgContent: 'Please enter Full Name', msgType: 'alert error'})
         }else if(!email){
             this.setState({msgContent: 'Please provide email address', msgType: 'alert error'})
@@ -48,7 +48,7 @@ class UserModal extends Component{
             this.setState({msgContent: 'Please select group', msgType: 'alert error'})
         }else{
             this.setState({loading: true}, function(){
-                this.props.updateUser(this.state.usermodal._id, {Fullname, email, group});
+                this.props.updateUser(this.state.usermodal._id, {fullname, email, group});
             })
         }
     }
@@ -60,7 +60,7 @@ class UserModal extends Component{
         if(props.usermodal && props.usermodal !== state.usermodal){
             return{
                 usermodal: props.usermodal,
-                Fullname: props.usermodal.Fullname,
+                fullname: props.usermodal.fullname,
                 email: props.usermodal.email,
                 group: props.usermodal.group._id,
             }
@@ -78,7 +78,7 @@ class UserModal extends Component{
                     msgType: 'alert success',
                     userupdates: props.userupdates,
                     loading: false,
-                    Fullname: "",
+                    fullname: "",
                     email: "",
                     group: ""
                 }
@@ -118,8 +118,8 @@ class UserModal extends Component{
                                                 </div>
                                                 <input 
                                                     onChange={this.handleInput} 
-                                                    value={this.state.Fullname} 
-                                                    name="Fullname" 
+                                                    value={this.state.fullname} 
+                                                    name="fullname" 
                                                     className="form-control form-control-lg" 
                                                     placeholder="Full Name" 
                                                     type="text" />

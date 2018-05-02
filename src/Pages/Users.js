@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {fetchUsers, moreUsers, fetchGroups} from '../Actions/List';
+import {fetchUsers, moreUsers, fetchGroups, searchUser} from '../Actions/List';
 import {addUser} from '../Actions/Create';
-import {deleteUser} from '../Actions/Update';
-import {handleModal} from "../Actions/Global";
 
 import UserModal from '../Components/UserModal';
+import UsersList from '../Components/UsersList';
 
-class UsersList extends Component {
+class Users extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -17,15 +16,16 @@ class UsersList extends Component {
             loading: false,
             msgContent: null,
             msgType: null,
-            Fullname: "",
+            fullname: "",
             email: "",
             group: "",
+            searchterm: "",
             userupdates: props.userupdates
         };
         this.loadMore = this.loadMore.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.editUser = this.editUser.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
     loadMore(){
         this.setState({skip: this.state.skip + this.state.perPage, inPage: this.state.inPage + this.state.perPage}, function () {
@@ -35,13 +35,10 @@ class UsersList extends Component {
     handleInput(e) {
         this.setState({ [e.target.name]: e.target.value.replace(/(<([^>]+)>)/ig,"")});
     }
-    handleDelete(userid){
-        this.props.deleteUser(userid);
-    }
     handleSubmit(e) {
         e.preventDefault();
-        const { Fullname, email, group } = this.state;
-        if(!Fullname){
+        const { fullname, email, group } = this.state;
+        if(!fullname){
             this.setState({msgContent: 'Please enter Full Name', msgType: 'alert error'})
         }else if(!email){
             this.setState({msgContent: 'Please provide email address', msgType: 'alert error'})
@@ -49,12 +46,18 @@ class UsersList extends Component {
             this.setState({msgContent: 'Please select group', msgType: 'alert error'})
         }else{
             this.setState({loading: true}, function(){
-                this.props.addUser({Fullname, email, group});
+                this.props.addUser({fullname, email, group});
             })
         }
     }
-    editUser(user){
-        this.props.handleModal(user);
+    handleSearch(e) {
+        this.setState({ searchterm: e.target.value.replace(/(<([^>]+)>)/ig,"")}, function(){
+            if(this.state.searchterm){
+                this.props.searchUser(this.state.searchterm);
+            }else{
+                this.props.fetchUsers(this.state.skip , this.state.perPage);
+            }
+        });
     }
     componentDidMount(){
         this.props.fetchUsers(this.state.skip , this.state.perPage);
@@ -71,7 +74,7 @@ class UsersList extends Component {
                     msgType: 'alert success',
                     userupdates: props.userupdates,
                     loading: false,
-                    Fullname: "",
+                    fullname: "",
                     email: "",
                     group: ""
                 }
@@ -99,41 +102,33 @@ class UsersList extends Component {
                 </div>
                 }
                 <div className="wrap">
-                    <div className="col-half">
+                    <div className="col-full">
                         <div className="card">
                             <div className="card-header">
                                 <i className="fa fa-align-justify"></i> Users List
                             </div>
                             <div className="card-body">
-                                <table className="table table-responsive-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Full Name</th>
-                                            <th>Email</th>
-                                            <th>Group</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {users.map((user)=>
-                                         <tr key={user._id}>
-                                            <td>{user.Fullname}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.group.title}</td>
-                                            <td>
-                                                <button className="btn btn-primary" onClick={()=> this.editUser(user)}><i className="fa fa-edit"></i></button>
-                                                <button 
-                                                className="btn btn-danger"
-                                                onClick={() => { if (window.confirm('Are you sure to delete this user?')) this.handleDelete(user._id) } }><i className="fa fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        )}
-                                    </tbody>
-                                </table>
+                                <div className="form-group wrap">
+                                    <div className="col-full">
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text"><i className="fa fa-search"></i></span>
+                                            </div>
+                                            <input 
+                                                onChange={this.handleSearch} 
+                                                value={this.state.searchterm} 
+                                                name="searchterm" 
+                                                className="form-control form-control-lg" 
+                                                placeholder="Search User" 
+                                                type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <UsersList users={users}/>
                             </div>
                             {loadMore &&
                             <div className="card-footer">
-                                <button type="button" className="btn btn-sm btn-success"><i className="fa fa-more"></i> Load more</button>
+                                <button type="button" className="btn btn-sm btn-success" onClick={this.loadMore}><i className="fa fa-more"></i> Load more</button>
                             </div>
                             }
                         </div>
@@ -154,8 +149,8 @@ class UsersList extends Component {
                                                 </div>
                                                 <input 
                                                     onChange={this.handleInput} 
-                                                    value={this.state.Fullname} 
-                                                    name="Fullname" 
+                                                    value={this.state.fullname} 
+                                                    name="fullname" 
                                                     className="form-control form-control-lg" 
                                                     placeholder="Full Name" 
                                                     type="text" />
@@ -222,4 +217,4 @@ function mapStateToProps(globalState) {
     };
 }
 
-export default connect(mapStateToProps, {fetchUsers, moreUsers, addUser, fetchGroups, deleteUser, handleModal})(UsersList);
+export default connect(mapStateToProps, {fetchUsers, moreUsers, addUser, fetchGroups, searchUser})(Users);
